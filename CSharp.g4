@@ -327,7 +327,7 @@ interpolated_regular_string_character_no_brace
     ;
 
 single_interpolated_regular_string_character
-    : '<Any character except \" (U+0022), \\ (U+005C), { (U+007B), } (U+007D), and new_line_character>'
+    : '<Any character except \\" (U+0022), \\ (U+005C), { (U+007B), } (U+007D), and new_line_character>'
     ;
 
 open_brace_escape_sequence
@@ -632,7 +632,6 @@ type
     : value_type
     | reference_type
     | type_parameter
-    | type_unsafe
     ;
 
 value_type
@@ -786,7 +785,6 @@ primary_no_array_creation_expression
     | default_value_expression
     | nameof_expression
     | anonymous_method_expression
-    | primary_no_array_creation_expression_unsafe
     ;
 
 interpolated_string_expression
@@ -986,7 +984,6 @@ unary_expression
     | pre_decrement_expression
     | cast_expression
     | await_expression
-    | unary_expression_unsafe
     ;
 null_conditional_expression
     : primary_expression null_conditional_operations
@@ -1270,7 +1267,6 @@ embedded_statement
     | lock_statement
     | using_statement
     | yield_statement
-    | embedded_statement_unsafe
     ;
 block
     : '{' statement_list? '}'
@@ -1310,7 +1306,6 @@ local_variable_declarator
 local_variable_initializer
     : expression
     | array_initializer
-    | local_variable_initializer_unsafe
     ;
 local_constant_declaration
     : 'const' type constant_declarators
@@ -1528,7 +1523,6 @@ class_modifier
     | 'abstract'
     | 'sealed'
     | 'static'
-    | class_modifier_unsafe
     ;
 
 type_parameter_list
@@ -1624,7 +1618,6 @@ field_modifier
     | 'static'
     | 'readonly'
     | 'volatile'
-    | field_modifier_unsafe
     ;
 
 variable_declarators
@@ -1662,7 +1655,6 @@ method_modifier
     | 'abstract'
     | 'extern'
     | 'async'
-    | method_modifier_unsafe
     ;
 
 return_type
@@ -1725,7 +1717,6 @@ property_modifier
     | 'override'
     | 'abstract'
     | 'extern'
-    | property_modifier_unsafe
     ;
 
 property_body
@@ -1778,7 +1769,6 @@ event_modifier
     | 'override'
     | 'abstract'
     | 'extern'
-    | event_modifier_unsafe
     ;
 
 event_accessor_declarations
@@ -1808,7 +1798,6 @@ indexer_modifier
     | 'override'
     | 'abstract'
     | 'extern'
-    | indexer_modifier_unsafe
     ;
 
 indexer_declarator
@@ -1829,7 +1818,6 @@ operator_modifier
     : 'public'
     | 'static'
     | 'extern'
-    | operator_modifier_unsafe
     ;
 
 operator_declarator
@@ -1876,7 +1864,6 @@ constructor_modifier
     | 'internal'
     | 'private'
     | 'extern'
-    | constructor_modifier_unsafe
     ;
 
 constructor_declarator
@@ -1900,7 +1887,6 @@ static_constructor_declaration
 static_constructor_modifiers
     : 'extern'? 'static'
     | 'static' 'extern'?
-    | static_constructor_modifiers_unsafe
     ;
 
 static_constructor_body
@@ -1909,7 +1895,6 @@ static_constructor_body
     ;
 destructor_declaration
     : attributes? 'extern'? '~' identifier '(' ')' destructor_body
-    | destructor_declaration_unsafe
     ;
 
 destructor_body
@@ -1930,7 +1915,6 @@ struct_modifier
     | 'protected'
     | 'internal'
     | 'private'
-    | struct_modifier_unsafe
     ;
 
 struct_interfaces
@@ -1950,7 +1934,6 @@ struct_member_declaration
     | constructor_declaration
     | static_constructor_declaration
     | type_declaration
-    | struct_member_declaration_unsafe
     ;
 
 // </Struct>
@@ -1978,7 +1961,6 @@ interface_modifier
     | 'protected'
     | 'internal'
     | 'private'
-    | interface_modifier_unsafe
     ;
 
 variant_type_parameter_list
@@ -2081,7 +2063,6 @@ delegate_modifier
     | 'protected'
     | 'internal'
     | 'private'
-    | delegate_modifier_unsafe
     ;
 
 
@@ -2168,159 +2149,6 @@ attribute_argument_expression
     ;
 // </Attribute>
 
-// <Unsafe>
-class_modifier_unsafe
-    : 'unsafe'
-    ;
-
-struct_modifier_unsafe
-    : 'unsafe'
-    ;
-
-interface_modifier_unsafe
-    : 'unsafe'
-    ;
-
-delegate_modifier_unsafe
-    : 'unsafe'
-    ;
-
-field_modifier_unsafe
-    : 'unsafe'
-    ;
-
-method_modifier_unsafe
-    : 'unsafe'
-    ;
-
-property_modifier_unsafe
-    : 'unsafe'
-    ;
-
-event_modifier_unsafe
-    : 'unsafe'
-    ;
-
-indexer_modifier_unsafe
-    : 'unsafe'
-    ;
-
-operator_modifier_unsafe
-    : 'unsafe'
-    ;
-
-constructor_modifier_unsafe
-    : 'unsafe'
-    ;
-
-destructor_declaration_unsafe
-    : attributes? 'extern'? 'unsafe'? '~' identifier '(' ')' destructor_body
-    | attributes? 'unsafe'? 'extern'? '~' identifier '(' ')' destructor_body
-    ;
-
-static_constructor_modifiers_unsafe
-    : 'extern'? 'unsafe'? 'static'
-    | 'unsafe'? 'extern'? 'static'
-    | 'extern'? 'static' 'unsafe'?
-    | 'unsafe'? 'static' 'extern'?
-    | 'static' 'extern'? 'unsafe'?
-    | 'static' 'unsafe'? 'extern'?
-    ;
-
-embedded_statement_unsafe
-    : unsafe_statement
-    | fixed_statement
-    ;
-
-unsafe_statement
-    : 'unsafe' block
-    ;
-
-type_unsafe
-    : pointer_type
-    ;
-pointer_type
-    : unmanaged_type '*'
-    | 'void' '*'
-    ;
-
-unmanaged_type
-    : type
-    ;
-primary_no_array_creation_expression_unsafe
-    : pointer_member_access
-    | pointer_element_access
-    | sizeof_expression
-    ;
-
-unary_expression_unsafe
-    : pointer_indirection_expression
-    | addressof_expression
-    ;
-pointer_indirection_expression
-    : '*' unary_expression
-    ;
-pointer_member_access
-    : primary_expression '->' identifier
-    ;
-pointer_element_access
-    : primary_no_array_creation_expression '[' expression ']'
-    ;
-addressof_expression
-    : '&' unary_expression
-    ;
-sizeof_expression
-    : 'sizeof' '(' unmanaged_type ')'
-    ;
-fixed_statement
-    : 'fixed' '(' pointer_type fixed_pointer_declarators ')' embedded_statement
-    ;
-
-fixed_pointer_declarators
-    : fixed_pointer_declarator (','  fixed_pointer_declarator)*
-    ;
-
-fixed_pointer_declarator
-    : identifier '=' fixed_pointer_initializer
-    ;
-
-fixed_pointer_initializer
-    : '&' variable_reference
-    | expression
-    ;
-struct_member_declaration_unsafe
-    : fixed_size_buffer_declaration
-    ;
-
-fixed_size_buffer_declaration
-    : attributes? fixed_size_buffer_modifier* 'fixed' buffer_element_type fixed_size_buffer_declarator+ ';'
-    ;
-
-fixed_size_buffer_modifier
-    : 'new'
-    | 'public'
-    | 'protected'
-    | 'internal'
-    | 'private'
-    | 'unsafe'
-    ;
-
-buffer_element_type
-    : type
-    ;
-
-fixed_size_buffer_declarator
-    : identifier '[' constant_expression ']'
-    ;
-local_variable_initializer_unsafe
-    : stackalloc_initializer
-    ;
-
-stackalloc_initializer
-    : 'stackalloc' unmanaged_type '[' expression ']'
-    ;
-
-// </Unsafe>
 
 // <Documentation Comments>
 single_line_doc_comment
